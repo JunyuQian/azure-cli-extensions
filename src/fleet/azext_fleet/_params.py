@@ -206,6 +206,7 @@ def load_arguments(self, _):
                 RolloutStrategyType.ROLLING_UPDATE.value,
                 RolloutStrategyType.EXTERNAL.value,
             ]),
+            default=RolloutStrategyType.ROLLING_UPDATE.value,
             validator=validate_rollout_strategy,
         )
         c.argument('cluster_update_strategy', help='Name of an existing cluster staged update strategy. Required when --rollout-strategy is "External".')
