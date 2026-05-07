@@ -198,7 +198,7 @@ def load_arguments(self, _):
         c.argument('egress_policy', help='Egress policy for the namespace', arg_type=get_enum_type(['DenyAll', 'AllowAll', 'AllowSameNamespace']))
         c.argument('delete_policy', help='Delete policy for the namespace.', arg_type=get_enum_type(['Keep', 'Delete']), default='Keep')
         c.argument('adoption_policy', help='Adoption policy for the namespace.', arg_type=get_enum_type(['Always', 'IfIdentical', 'Never']), default='Never')
-        c.argument('member_cluster_names', nargs='*', validator=validate_member_cluster_names, help='Space-separated list of member cluster names to apply the namespace to.')
+        c.argument('member_cluster_names', nargs='+', validator=validate_member_cluster_names, help='Space-separated list of member cluster names to apply the namespace to.')
         c.argument(
             'rollout_strategy',
             help='Rollout strategy type for cluster resource placement.',

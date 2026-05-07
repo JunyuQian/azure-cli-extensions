@@ -12,6 +12,7 @@ import yaml
 from knack.log import get_logger
 from knack.util import CLIError
 
+from azure.cli.core.azclierror import ArgumentUsageError
 from azure.cli.core.commands.client_factory import get_subscription_id
 from azure.cli.core.util import sdk_no_wait, get_file_json, shell_safe_json_parse
 from azure.cli.core import get_default_cli
@@ -1001,6 +1002,9 @@ def create_managed_namespace(cmd,
                              cluster_update_strategy=None,
                              no_wait=False):
 
+    if not member_cluster_names:
+        raise ArgumentUsageError("--member-cluster-names is required for creating a managed namespace.")
+
     managed_namespace_model = cmd.get_models(
         "FleetManagedNamespace",
         resource_type=CUSTOM_MGMT_FLEET,
@@ -1030,8 +1034,6 @@ def create_managed_namespace(cmd,
     )
 
     propagation_policy = _build_propagation_policy(member_cluster_names, rollout_strategy, cluster_update_strategy)
-    if not member_cluster_names:
-        logger.warning("--member-cluster-names was empty; namespace will not be placed on any member clusters")
 
     fleet_managed_namespace_props = fleet_managed_namespace_properties_model(
         managed_namespace_properties=managed_namespace_props,
